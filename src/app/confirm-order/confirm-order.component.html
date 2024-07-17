@@ -1,0 +1,119 @@
+<div class="confirm-order-page">
+  <div class="album py-5">
+    <div class="container">
+      <div class="d-flex align-items-center pb-3 mb-5 border-bottom">
+        <span class="fs-2"> Confirm order</span>
+      </div>
+
+      <div class="text-center" *ngIf="orderArray.length == 0">
+        <h3>You need to first add items to your cart</h3>
+      </div>
+
+      <div *ngIf="orderArray.length > 0">
+        <div *ngFor="let item of orderArray">
+          <div class="card mb-3 mx-auto" style="max-width: 700px">
+            <div class="row g-0">
+              <div class="col-md-8">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col text-center align-content-center">
+                      <i
+                        class="fa-solid fa-bars fa-flip"
+                        style="font-size: 3rem; color: yellow"
+                      ></i>
+                    </div>
+                    <div class="col">
+                      <h5 class="card-title">{{ item.name }}</h5>
+                      <p class="card-text item-price">
+                        ${{ item.price }} X {{ item.quantity }} = ${{
+                          getItemTotalAmount(item.price, item.quantity)
+                        }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center" style="margin-top: 80px; margin-bottom: 30px">
+        <h4>
+          Total Amount:
+          <i class="fa-solid fa-hand-holding-dollar text-success"></i>
+          <strong class="text-success">${{ totalAmt }}</strong>
+        </h4>
+        <p>ITBIS: ${{ this.itbis_Amt }}</p>
+        <p></p>
+        <p>(inclusive of 18% itbis)</p>
+      </div>
+
+      <div
+        class="mx-auto text-center"
+        style="max-width: 500px; margin-bottom: 20px"
+        *ngIf="addressNotFound == true"
+      >
+        <div class="alert alert-danger" role="alert">
+          yo haven't set your address. Please do it otherwise we cannot confirm
+          your order
+        </div>
+        <button class="btn btn-md btn-outline-primary" (click)="goToProfile()">
+          Go to profile
+        </button>
+      </div>
+
+      <div
+        class="alert alert-danger mx-auto"
+        role="alert"
+        style="max-width: 500px; margin-bottom: 20px"
+        *ngIf="notAvailableItems.length > 0"
+      >
+        <h5>Following items are currently not avaliable:</h5>
+        <ul>
+          <li *ngFor="let item of notAvailableItems">{{ item.name }}</li>
+        </ul>
+      </div>
+
+      <div
+        class="text-center cart-btn-group"
+        *ngIf="isProcessing == false && isOrdered == false"
+      >
+        <div class="form-group">
+          <button
+            class="btn btn-outline-warning"
+            (click)="goBackToCart()"
+            style="margin-right: 15px"
+          >
+            Back to cart
+          </button>
+          <button
+            class="btn btn-outline-danger"
+            (click)="confirm()"
+            *ngIf="notAvailableItems.length < 1"
+          >
+            confirm
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="alert alert-success mx-auto"
+        role="alert"
+        style="max-width: 500px"
+        *ngIf="isOrdered == true"
+      >
+        Your order has been placed succefully!
+        <i class="fa-regular fa-circle-check text-success"></i>
+      </div>
+
+      <div class="text-center cart-btn-group" *ngIf="isOrdered == true">
+        <div class="form-group">
+          <button class="btn btn-outline-primary" [routerLink]="['/orders']">
+            My Orders
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

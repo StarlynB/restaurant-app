@@ -1,0 +1,61 @@
+<div class="my-order-page">
+  <div class="album py-5">
+    <div class="container">
+      <div class="d-flex align-items-center pb-3 mb-5 border-bottom">
+        <span class="fs-2">My Orders</span>
+      </div>
+
+      <div *ngIf="isLoading == true">
+        <app-loader></app-loader>
+      </div>
+
+      <div
+        class="text-center"
+        *ngIf="isLoaded == true && orderArray.length == 0"
+      >
+        <h3>You haven't ordered anything yet</h3>
+      </div>
+
+      <div *ngFor="let order of orderArray">
+        <div class="card mx-auto" style="max-width: 700px">
+          <div class="card-header">
+            <strong>Order # {{ order.orderNo }}</strong> placed on
+            {{ order.addedOn }}
+            >
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">ID: {{ order.orderId }}</h5>
+            <div *ngFor="let oi of order.orderedItems">
+              <p class="card-text">
+                {{ oi.name }}: ${{ oi.price }} X {{ oi.quantity }} = ${{
+                  getItemTotalAmount(oi.price, oi.quantity)
+                }}
+              </p>
+            </div>
+            <hr />
+            <strong
+              >Total Amount paid:
+              <p class="text-success">${{ order.totalAmt }}</p></strong
+            >(inclusive of 18% itbis)
+          </div>
+          <div class="card-footer">
+            <p class="text-black fw-bold">Order Status:</p>
+            <p
+              [ngClass]="
+                order.isReady
+                  ? 'fa-solid fa-circle-check fa-shake text-success'
+                  : 'fa-solid fa-stopwatch fa-fade text-warning'
+              "
+            >
+              {{
+                order.isReady
+                  ? "Order is Ready"
+                  : "Order is not ready wait a few moment please"
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
