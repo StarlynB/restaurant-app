@@ -1,0 +1,25 @@
+[debug] [2024-06-06T18:41:08.225Z] ----------------------------------------------------------------------
+[debug] [2024-06-06T18:41:08.227Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\User\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2024-06-06T18:41:08.228Z] CLI Version:   13.11.0
+[debug] [2024-06-06T18:41:08.229Z] Platform:      win32
+[debug] [2024-06-06T18:41:08.229Z] Node Version:  v18.17.0
+[debug] [2024-06-06T18:41:08.238Z] Time:          Thu Jun 06 2024 14:41:08 GMT-0400 (Atlantic Standard Time)
+[debug] [2024-06-06T18:41:08.239Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-06-06T18:41:08.363Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-06-06T18:41:08.363Z] > authorizing via signed-in user (baezstarlyn08@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\User\Desktop\App-Restaurant\App-Restaurant
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+

@@ -1,1 +1,89 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0;
+    font-family: "Raleway", sans-serif;
+    scroll-behavior: auto;
+  }
+  
+  img {
+    user-select: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    -ms-user-drag: none;
+  }
+  
+  .success-text, .error-text {
+    font-size: 13px;
+    margin-top: 15px;
+  }
+  
+  .success-text {
+    color: rgb(0, 231, 77);
+  }
+  
+  .error-text {
+    color: rgb(255, 83, 83);
+  }
+  
+  /* Media Queries */
+  @media (min-width: 1281px) {
+    .on-mobile-hide {
+      display: block;
+    }
+    .mobile-only {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    .on-mobile-hide {
+      display: block;
+    }
+    .mobile-only {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .on-mobile-hide {
+      display: none;
+    }
+    .mobile-only {
+      display: block;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .on-mobile-hide {
+      display: block;
+    }
+    .mobile-only {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 481px) and (max-width: 767px) {
+    .on-mobile-hide {
+      display: none;
+    }
+    .mobile-only {
+      display: block;
+    }
+  }
+  
+  @media (min-width: 320px) and (max-width: 480px) {
+    .on-mobile-hide {
+      display: none;
+    }
+    .mobile-only {
+      display: block;
+    }
+  }
+  

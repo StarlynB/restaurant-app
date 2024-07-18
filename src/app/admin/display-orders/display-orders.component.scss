@@ -1,0 +1,30 @@
+.my-order-page {
+    min-height: 120vh;
+    padding-top: 80px;
+}
+
+div {
+    font-family: "Karla", sans-serif;
+}
+
+.card {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.card-header {
+    background-color: rgb(0 255 167 / 46%);
+}
+
+.form-switch {
+    word-break: break-word;
+}
+
+.form-check-label {
+    font-size: 14px;
+}
+
+.form-check-input:checked {
+    background-color: #33ea00;
+    border-color: #33ea00;
+}
