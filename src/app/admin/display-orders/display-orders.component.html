@@ -51,22 +51,29 @@
                 </p>
               </div>
               <hr />
-              <button
-                class="btn btn-outline-secondary"
-                (click)="updateIsReady(order.orderId, !order.isReady)"
-              >
-                Mark as {{ order.isReady ? "Not Ready" : "Ready" }}
-              </button>
-              <p>
-                Status:
-                <i
-                  [ngClass]="
-                    order.isReady
-                      ? 'fas fa-check-circle text-success'
-                      : 'fas fa-times-circle text-danger'
-                  "
-                ></i>
-              </p>
+              <div class="row">
+                <div class="col">
+                  <button
+                    class="btn btn-outline-secondary"
+                    (click)="updateIsReady(order.orderId, !order.isReady)"
+                  >
+                    Mark as {{ order.isReady ? "Not Ready" : "Ready" }}
+                  </button>
+                </div>
+                <div class="col">
+                  <p>
+                    Status: &nbsp;&nbsp;
+                    <i
+                      [ngClass]="
+                        order.isReady
+                          ? 'fas fa-check-circle text-success'
+                          : 'fas fa-times-circle text-danger'
+                      "
+                    ></i>
+                  </p>
+                </div>
+              </div>
+
               <hr />
             </div>
             <!-- Mostrar el total de la orden -->

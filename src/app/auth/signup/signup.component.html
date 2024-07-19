@@ -72,6 +72,7 @@
       class="w-100 btn btn-lg btn-primary"
       type="submit"
       [disabled]="!signUpForm.valid || isBtnClicked || isSignedUp"
+      style="margin-top: 10px;"
     >
       <i class="fa fa-arrow-right" *ngIf="!isSigningUp && !isSignedUp"></i>
       <span
@@ -80,11 +81,6 @@
         aria-hidden="true"
         *ngIf="isSigningUp"
       ></span>
-      <i
-        class="fa fa-check"
-        aria-hidden="true"
-        *ngIf="isSignedUp && isBtnClicked"
-      ></i>
     </button>
   </form>
 
