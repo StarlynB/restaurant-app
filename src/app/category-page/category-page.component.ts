@@ -129,13 +129,15 @@ export class CategoryPageComponent implements OnInit {
 
       (await this.itemDataService.getItemsCategoryWise('desserts')).subscribe((data) => {
         this._desserts = data;
-        console.log('Fetching', this._mains)
+        console.log('Fetching', this._desserts)
         this.mergeItemAndCartData();
 
       });
 
       (await this.itemDataService.getItemsCategoryWise('alcoholic-beverages')).subscribe((data) => {
         this._alcoholicBeverages = data;
+        console.log('Fetching', this._alcoholicBeverages)
+        this.mergeItemAndCartData();
 
       });
 

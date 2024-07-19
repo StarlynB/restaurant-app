@@ -4,7 +4,9 @@
     aria-label="Eighth navbar example"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['']">Antojos</a>
+      <a class="navbar-brand" [routerLink]="['']"
+        ><i class="fa-solid fa-burger fa-bounce"></i> Antojos</a
+      >
 
       <button
         class="navbar-toggler"
@@ -26,8 +28,8 @@
               [routerLink]="['']"
               data-bs-toggle="collapse"
               data-bs-target=".navbar-collapse.show"
-              >Home</a
-            >
+              >Home <i class="fa-solid fa-house" style="color: #b197fc"></i>
+            </a>
           </li>
           <li class="nav-item">
             <a
@@ -35,8 +37,8 @@
               [routerLink]="['menu-page']"
               data-bs-toggle="collapse"
               data-bs-target=".navbar-collapse.show"
-              >Menu</a
-            >
+              >Menu <i class="fa-solid fa-bars" style="color: #ffd43b"></i
+            ></a>
           </li>
           <li class="nav-item" *ngIf="!isAuthenticated && displayName == null">
             <a
@@ -44,8 +46,9 @@
               [routerLink]="['/login']"
               data-bs-toggle="collapse"
               data-bs-target=".navbar-collapse.show"
-              >Log in</a
-            >
+              >Log in
+              <i class="fa-solid fa-right-to-bracket" style="color: #74c0fc"></i
+            ></a>
           </li>
           <li class="nav-item" *ngIf="!isAuthenticated && displayName == null">
             <a
@@ -53,8 +56,9 @@
               [routerLink]="['/sign-up']"
               data-bs-toggle="collapse"
               data-bs-target=".navbar-collapse.show"
-              >Sign up</a
-            >
+              >Sign up
+              <i class="fa-solid fa-user-plus" style="color: #63e6be"></i
+            ></a>
           </li>
 
           <li

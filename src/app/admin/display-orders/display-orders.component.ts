@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Order } from 'src/app/models/order.model';
 import { OrderDataService } from 'src/app/services/order-data.service';
@@ -85,11 +85,19 @@ export class DisplayOrdersComponent implements OnInit {
 
     try {
       await this.orderDataService.updateOrderIsReady(this.uid, orderId, orderToUpdate);
+
       // Update the local order array as well
       const orderIndex = this.orderArray.findIndex((order: { orderId: string; }) => order.orderId === orderId);
       if (orderIndex !== -1) {
         this.orderArray[orderIndex].isReady = isReady;
       }
+
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000)
+
+
 
     } catch (error) {
       console.error('Error updating order:', error);
