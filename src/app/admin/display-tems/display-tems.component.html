@@ -264,9 +264,9 @@
                   <div
                     class="d-flex justify-content-between align-items-center"
                   >
-                    <small class="text-dark item-price"
-                      >${{ item.price }}</small
-                    >
+                    <small class="text-dark item-price">{{
+                      item.price | currency
+                    }}</small>
                     <div class="btn-group">
                       <div
                         class="form-check form-switch"

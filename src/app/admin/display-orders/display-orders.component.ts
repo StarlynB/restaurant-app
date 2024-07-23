@@ -16,6 +16,7 @@ export class DisplayOrdersComponent implements OnInit {
   isLoaded: boolean = false;
   userName: string;
   uid: string;
+  totalAmount: number = 0; // Propiedad para el total de todos los pedidos
 
   constructor(
     private orderDataService: OrderDataService,
@@ -60,10 +61,13 @@ export class DisplayOrdersComponent implements OnInit {
         addedOn: orderObj.addedOn,
         isReady: orderObj.isReady,
         orderedItems: oia,
-        totalAmt: orderObj.totalAmt,
+        totalAmt: parseFloat(orderObj.totalAmt),
       };
 
       this.orderArray.push(obj);
+
+      // Sumar el total de cada pedido al total general
+      this.totalAmount += parseFloat(orderObj.totalAmt);
     }
 
     // reverse it to show latest order first

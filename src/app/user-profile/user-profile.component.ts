@@ -79,13 +79,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
             })
           }
 
-          // Check if the user is an admin
-          if (this._userData.rol.val === 'admin') {
-            this.isReadonly = false;
-            this.isAdmin = true;
-            this.userProfileForm.get('rol')?.enable();
-          }
-
         }
       });
 
@@ -95,7 +88,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       phone: new FormControl(this._userData!.phone, [Validators.pattern('^((\\+1-?)|0)?[0-9]{10}$')]),
       email: new FormControl(this._userData!.email),
       address: new FormControl(this._userData!.address),
-      rol: new FormControl({ value: '', disabled: true })
+      rol: new FormControl(this._userData!.rol.val)
     })
 
   }
@@ -114,17 +107,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this._userData!.name = this.userProfileForm.get('name')?.value;
     this._userData!.phone = this.userProfileForm.get('phone')?.value;
     this._userData!.address = this.userProfileForm.get('address')?.value;
-
-    // Check if the current user is admin to update the role
-    if (this.isAdmin) {
-      this._userData!.rol = this.userProfileForm.get('rol')?.value;
-    }
-
-    // Patch the role value in the form
-    this.userProfileForm.patchValue({ rol: this._userData!.rol });
-
-    // Set the user ID for updating user data
-    this._userDataService.setUid = this._userData!.uid;
 
     // Update user data in the service
     this._userDataService.updateUserData(this._userData!)

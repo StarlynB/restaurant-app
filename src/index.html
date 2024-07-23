@@ -46,8 +46,43 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+      type="module"
+    ></script>
   </head>
   <body>
-    <app-root></app-root>
+    <div id="loader">
+      <dotlottie-player
+        src="https://lottie.host/cd4fa88f-df7a-42e1-b265-e89d98a266bf/6mTszRBGJB.json"
+        background="transparent"
+        speed="1"
+        style="width: 300px; height: 300px"
+        autoplay
+      ></dotlottie-player>
+    </div>
+    <div id="content">
+      <app-root></app-root>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const loader = document.getElementById("loader");
+        const content = document.getElementById("content");
+        const player = document.querySelector("dotlottie-player");
+
+        const isFirstVisit = localStorage.getItem("isFirstVisit");
+
+        if (!isFirstVisit) {
+          localStorage.setItem("isFirstVisit", "false");
+          player.addEventListener("complete", () => {
+            loader.style.display = "none";
+            content.style.display = "block";
+          });
+        } else {
+          loader.style.display = "none";
+          content.style.display = "block";
+        }
+      });
+    </script>
   </body>
 </html>
