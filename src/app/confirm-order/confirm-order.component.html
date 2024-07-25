@@ -47,6 +47,9 @@
         <p>ITBIS: ${{ this.itbis_Amt }}</p>
         <p></p>
         <p>(inclusive of 18% itbis)</p>
+        <div class="mb-3 mx-auto" style="max-width: 700px">
+          <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+        </div>
       </div>
 
       <div
@@ -87,13 +90,13 @@
           >
             Back to cart
           </button>
-          <button
+          <!-- <button
             class="btn btn-outline-danger"
             (click)="confirm()"
             *ngIf="notAvailableItems.length < 1"
           >
             confirm
-          </button>
+          </button> -->
         </div>
       </div>
 

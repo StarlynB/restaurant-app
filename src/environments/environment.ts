@@ -14,4 +14,14 @@ export const enviroment = {
     },
     UNSPLASH_SOURCE_API:
         'https://source.unsplash.com/1280x900/?restaurants,food,alcohol',
+
+    //paypal config 
+    clientId: 'AU5noYv0uLAq6rEjXpWEKZxAQfLWKRemwwvB7B0cX90DT6_KCZOPUp_CD98BIvioPI0j9wqcwQx_aLRM',
+
+    //exchange money config
+
+    apikey: '6812a8ef5ea90b1e7bc64659',
+    apiUrl: 'https://v6.exchangerate-api.com/v6/'
+
+
 };

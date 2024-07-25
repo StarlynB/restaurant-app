@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -42,6 +42,10 @@ import { StartersIconComponent } from './global/starters-icon/starters-icon.comp
 import { HandleLocalStorageService } from './services/handle-local-storage.service';
 import { AuthGuardService } from './route-guard/auth-guard.service';
 
+//external
+import { NgxPayPalModule } from 'ngx-paypal';
+import { NgxSpinnerModule } from "ngx-spinner";
+
 
 
 @NgModule({
@@ -80,6 +84,9 @@ import { AuthGuardService } from './route-guard/auth-guard.service';
     FormsModule,
     ReactiveFormsModule,
 
+    NgxPayPalModule,
+    NgxSpinnerModule,
+
     provideFirebaseApp(() => initializeApp(enviroment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
@@ -87,12 +94,14 @@ import { AuthGuardService } from './route-guard/auth-guard.service';
     provideAnalytics(() => getAnalytics()),
     provideDatabase(() => getDatabase())
   ],
+
   providers: [
     ScreenTrackingService,
     UserTrackingService,
     HandleLocalStorageService,
     AuthGuardService
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 

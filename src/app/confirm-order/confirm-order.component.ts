@@ -1,4 +1,4 @@
-import { Component, numberAttribute, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HandleCartService } from '../services/handle-cart.service';
 import { HandleLocalStorageService } from '../services/handle-local-storage.service';
 import { Cart } from '../models/cart.model';
@@ -6,22 +6,29 @@ import { OrderDataService } from '../services/order-data.service';
 import { UserDataService } from '../services/user-data.service';
 import { ItemDataService } from '../services/item-data.service';
 import { Router } from '@angular/router';
+import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
+import { enviroment } from 'src/environments/environment';
+import { ExchangeRateService } from '../services/exchange-rate.service';  // Importa el servicio
 
 @Component({
   selector: 'app-confirm-order',
   templateUrl: './confirm-order.component.html',
-  styleUrls: ['./confirm-order.component.scss']
+  styleUrls: ['./confirm-order.component.scss'],
 })
 export class ConfirmOrderComponent implements OnInit, OnDestroy {
   cartObj: Cart;
   orderArray: any[] = [];
   totalAmt: string | undefined;
-  itbis_Amt: number | undefined
+  itbis_Amt: number | undefined;
   isOrdered: boolean = false;
   isProcessing: boolean = false;
   addressNotFound: boolean = false;
   notAvailableItems: any[] = [];
   itemAvailabilityChecked: boolean = false;
+
+  //pay method
+  public payPalConfig?: IPayPalConfig;
+  private dollarPrice: number | undefined;
 
   constructor(
     private handleCartService: HandleCartService,
@@ -29,12 +36,18 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
     private router: Router,
     private orderDataService: OrderDataService,
     private userDataService: UserDataService,
-    private itemDataService: ItemDataService
+    private itemDataService: ItemDataService,
+    private exchangeRateService: ExchangeRateService  // Inyecta el servicio
   ) {
     this.cartObj = JSON.parse(this.handleLocalStorageService.getCartData()!);
   }
 
   ngOnInit(): void {
+    this.exchangeRateService.getDollarPrice().subscribe(price => {
+      this.dollarPrice = price;
+      this.initConfig();  // Llama a initConfig solo después de obtener el precio del dólar
+    });
+
     this.populateOrderData();
     this.handleCartService.hideCartBar(true);
 
@@ -78,7 +91,9 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
   calculateTotalAmount() {
     const itbisAmtNumber = (18 / 100) * Number(this.cartObj.totalAmt);
     this.itbis_Amt = parseFloat(itbisAmtNumber.toFixed(2));
-    this.totalAmt = (Number(this.cartObj.totalAmt) + this.itbis_Amt!).toFixed(2);
+    this.totalAmt = (Number(this.cartObj.totalAmt) + this.itbis_Amt!).toFixed(
+      2
+    );
   }
 
   goBackToCart() {
@@ -131,9 +146,86 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
 
   /** utilities */
 
+  /** paypal pay method */
+  private initConfig(): void {
+    if (this.dollarPrice === undefined) {
+      console.error('Dollar price is not defined.');
+      return;
+    }
+
+    const items = this.orderArray.map(item => ({
+      name: item.name,
+      quantity: item.quantity.toString(),
+      category: 'PHYSICAL_GOODS',
+      unit_amount: {
+        currency_code: 'USD',
+        value: (item.price / this.dollarPrice!).toFixed(2),
+      },
+    }));
+
+    const itemTotalValue = items.reduce((total, item) => {
+      return total + (parseFloat(item.unit_amount.value) * parseInt(item.quantity));
+    }, 0);
+
+    const taxTotalValue = (18 / 100) * itemTotalValue;
+    const totalValue = itemTotalValue + taxTotalValue;
+
+    this.payPalConfig = {
+      currency: 'USD',
+      clientId: enviroment.clientId,
+      createOrderOnClient: (data) => <ICreateOrderRequest>{
+        intent: 'CAPTURE',
+        purchase_units: [{
+          amount: {
+            currency_code: 'USD',
+            value: totalValue.toFixed(2), // El total de la orden
+            breakdown: {
+              item_total: {
+                currency_code: 'USD',
+                value: itemTotalValue.toFixed(2) // La suma de todos los elementos
+              },
+              tax_total: {
+                currency_code: 'USD',
+                value: taxTotalValue.toFixed(2)
+              }
+            }
+          },
+          items: items
+        }]
+      },
+      advanced: {
+        commit: 'true'
+      },
+      style: {
+        label: 'paypal',
+        layout: 'vertical'
+      },
+      onApprove: (data, actions) => {
+        console.log('onApprove - transaction was approved, but not authorized', data, actions);
+        actions.order.get().then((details: any) => {
+          console.log('onApprove - you can get full order details inside onApprove: ', details);
+        });
+      },
+      onClientAuthorization: (data) => {
+        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point',
+          JSON.stringify(data));
+        this.confirm(); // Llama al método confirm aquí
+      },
+      onCancel: (data, actions) => {
+        console.log('OnCancel', data, actions);
+      },
+      onError: err => {
+        console.log('OnError', err);
+      },
+      onClick: (data, actions) => {
+        console.log('onClick', data, actions);
+      }
+    };
+  }
+
+
   /** make profile path from name of the user */
   makeProfilePath(v: string) {
     return v.split(' ').join('-');
   }
-
 }

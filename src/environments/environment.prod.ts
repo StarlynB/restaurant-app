@@ -11,4 +11,6 @@ export const environment = {
         databaseURL: 'https://restaurant-managment-page-default-rtdb.firebaseio.com',
     },
     UNSPLASH_SOURCE_API: 'https://source.unsplash.com/1280x900/?restaurants,food,alcohol',
+    //paypal config 
+    clientId: 'AU5noYv0uLAq6rEjXpWEKZxAQfLWKRemwwvB7B0cX90DT6_KCZOPUp_CD98BIvioPI0j9wqcwQx_aLRM'
 };
