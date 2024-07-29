@@ -40,20 +40,22 @@
           </div>
           <div class="card-footer">
             <p class="text-black fw-bold">Order Status:</p>
-            <p
-              [ngClass]="
-                order.isReady
-                  ? 'fa-solid fa-circle-check fa-shake text-success'
-                  : 'fa-solid fa-stopwatch fa-fade text-warning'
-              "
-            >
+            <p>
+              <i
+                [ngClass]="
+                  order.isReady
+                    ? 'fa-solid fa-truck text-warning'
+                    : 'fa-solid fa-stopwatch fa-fade text-warning'
+                "
+              ></i>
               {{
                 order.isReady
-                  ? "Order is Ready"
-                  : "Order is not ready wait a few moment please"
+                  ? " Order's delivered to delivery"
+                  : " Order is not ready, please wait a few moments."
               }}
             </p>
           </div>
+          
         </div>
       </div>
     </div>
