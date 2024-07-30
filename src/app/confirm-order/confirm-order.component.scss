@@ -19,3 +19,16 @@ div {
     border-top-left-radius: 1.3em;
     border-bottom-left-radius: 1.3em;
 }
+
+.lottie-container {
+    position: fixed;  // Esto asegura que la animación esté fija en la pantalla
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;  // Asegúrate de que esté encima de otros elementos
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

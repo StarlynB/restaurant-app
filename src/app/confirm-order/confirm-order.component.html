@@ -100,14 +100,15 @@
         </div>
       </div>
 
-      <div
-        class="alert alert-success mx-auto"
-        role="alert"
-        style="max-width: 500px"
-        *ngIf="isOrdered == true"
-      >
-        Your order has been placed succefully!
-        <i class="fa-regular fa-circle-check text-success"></i>
+      <div class="lottie-container" *ngIf="isOrdered">
+        <dotlottie-player
+          src="https://lottie.host/77c606d8-f69f-486e-a1e3-a49bb4c08bf3/71wcbdMCj2.json"
+          background="white"
+          speed="1"
+          style="width: 100vw; height: 100vh;"
+          loop
+          autoplay
+        ></dotlottie-player>
       </div>
 
       <div class="text-center cart-btn-group" *ngIf="isOrdered == true">

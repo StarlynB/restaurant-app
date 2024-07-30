@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription, timer } from 'rxjs';
 import { HandleCartService } from '../services/handle-cart.service';
 import { HandleLocalStorageService } from '../services/handle-local-storage.service';
 import { Cart } from '../models/cart.model';
 import { OrderDataService } from '../services/order-data.service';
 import { UserDataService } from '../services/user-data.service';
 import { ItemDataService } from '../services/item-data.service';
-import { Router } from '@angular/router';
 import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
 import { enviroment } from 'src/environments/environment';
-import { ExchangeRateService } from '../services/exchange-rate.service';  // Importa el servicio
+import { ExchangeRateService } from '../services/exchange-rate.service';
 
 @Component({
   selector: 'app-confirm-order',
@@ -25,8 +26,8 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
   addressNotFound: boolean = false;
   notAvailableItems: any[] = [];
   itemAvailabilityChecked: boolean = false;
+  private subscription: Subscription = new Subscription();
 
-  //pay method
   public payPalConfig?: IPayPalConfig;
   private dollarPrice: number | undefined;
 
@@ -37,7 +38,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
     private orderDataService: OrderDataService,
     private userDataService: UserDataService,
     private itemDataService: ItemDataService,
-    private exchangeRateService: ExchangeRateService  // Inyecta el servicio
+    private exchangeRateService: ExchangeRateService
   ) {
     this.cartObj = JSON.parse(this.handleLocalStorageService.getCartData()!);
   }
@@ -45,14 +46,14 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.exchangeRateService.getDollarPrice().subscribe(price => {
       this.dollarPrice = price;
-      this.initConfig();  // Llama a initConfig solo después de obtener el precio del dólar
+      this.initConfig();
     });
 
     this.populateOrderData();
     this.handleCartService.hideCartBar(true);
 
     this.userDataService.checkAddressPresentOrNot().then((data: string) => {
-      if (data == null || data == undefined || data.trim().length < 1) {
+      if (!data || data.trim().length < 1) {
         this.addressNotFound = true;
       }
     });
@@ -60,24 +61,23 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.handleCartService.hideCartBar(false);
+    this.subscription.unsubscribe();
   }
 
   populateOrderData() {
-    if (this.cartObj != null && this.cartObj.items != undefined) {
+    if (this.cartObj && this.cartObj.items) {
       const itemD = this.cartObj.items;
 
       for (let item in itemD) {
         const itemObj = itemD[item];
 
-        const obj = {
+        this.orderArray.push({
           id: itemObj.itemId,
           category: itemObj.category,
           name: itemObj.name,
           price: itemObj.price,
           quantity: itemObj.quantity,
-        };
-
-        this.orderArray.push(obj);
+        });
       }
     }
 
@@ -91,9 +91,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
   calculateTotalAmount() {
     const itbisAmtNumber = (18 / 100) * Number(this.cartObj.totalAmt);
     this.itbis_Amt = parseFloat(itbisAmtNumber.toFixed(2));
-    this.totalAmt = (Number(this.cartObj.totalAmt) + this.itbis_Amt!).toFixed(
-      2
-    );
+    this.totalAmt = (Number(this.cartObj.totalAmt) + this.itbis_Amt!).toFixed(2);
   }
 
   goBackToCart() {
@@ -101,8 +99,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
   }
 
   confirm() {
-    // don't allow to confirm order if address is not present
-    if (this.addressNotFound === true) {
+    if (this.addressNotFound) {
       return;
     }
 
@@ -111,44 +108,41 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
 
   async onConfirm() {
     this.isProcessing = true;
-    this.notAvailableItems = await this.itemDataService.reportItemAvailability(
-      this.orderArray
-    );
+    this.notAvailableItems = await this.itemDataService.reportItemAvailability(this.orderArray);
 
-    // if there are not available items in order
     if (this.notAvailableItems.length > 0) {
       this.isProcessing = false;
     } else {
-      // clear cart
       this.cartObj = null!;
       this.handleLocalStorageService.removeCartData();
 
-      this.orderDataService
-        .addOrderData(this.orderArray, this.totalAmt!)
-        .subscribe(
-          (res: any) => {
-            this.isOrdered = true;
-            this.orderDataService.setOrderId(res.name);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
+      this.orderDataService.addOrderData(this.orderArray, this.totalAmt!).subscribe(
+        (res: any) => {
+          this.isOrdered = true;
+          this.orderDataService.setOrderId(res.name);
+          this.startLottieTimer();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
   }
 
+  startLottieTimer() {
+    this.subscription.add(timer(4000).subscribe(() => {
+      this.isOrdered = false;
+      this.router.navigate(['orders'])
+    }));
+  }
+
   goToProfile() {
-    let _name = this.makeProfilePath(
-      this.handleLocalStorageService.getUserName()!
-    );
+    const _name = this.makeProfilePath(this.handleLocalStorageService.getUserName()!);
     this.router.navigate(['profile', _name]);
   }
 
-  /** utilities */
-
-  /** paypal pay method */
   private initConfig(): void {
-    if (this.dollarPrice === undefined) {
+    if (!this.dollarPrice) {
       console.error('Dollar price is not defined.');
       return;
     }
@@ -178,11 +172,11 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
         purchase_units: [{
           amount: {
             currency_code: 'USD',
-            value: totalValue.toFixed(2), // El total de la orden
+            value: totalValue.toFixed(2),
             breakdown: {
               item_total: {
                 currency_code: 'USD',
-                value: itemTotalValue.toFixed(2) // La suma de todos los elementos
+                value: itemTotalValue.toFixed(2)
               },
               tax_total: {
                 currency_code: 'USD',
@@ -207,9 +201,8 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
         });
       },
       onClientAuthorization: (data) => {
-        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point',
-          JSON.stringify(data));
-        this.confirm(); // Llama al método confirm aquí
+        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', JSON.stringify(data));
+        this.confirm();
       },
       onCancel: (data, actions) => {
         console.log('OnCancel', data, actions);
@@ -223,8 +216,6 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
     };
   }
 
-
-  /** make profile path from name of the user */
   makeProfilePath(v: string) {
     return v.split(' ').join('-');
   }

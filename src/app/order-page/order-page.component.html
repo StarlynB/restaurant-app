@@ -44,13 +44,13 @@
               <i
                 [ngClass]="
                   order.isReady
-                    ? 'fa-solid fa-truck text-warning'
+                    ? 'fa-solid fa-truck text-success'
                     : 'fa-solid fa-stopwatch fa-fade text-warning'
                 "
               ></i>
               {{
                 order.isReady
-                  ? " Order's delivered to delivery"
+                  ? " Order's ready delivered to delivery"
                   : " Order is not ready, please wait a few moments."
               }}
             </p>
