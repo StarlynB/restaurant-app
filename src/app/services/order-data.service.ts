@@ -81,6 +81,18 @@ export class OrderDataService {
     return await this._http.get(path).toPromise();
   }
 
+  async removeOrderById(uid: string, orderId: string) {
+    const path = `${enviroment.firebase.databaseURL}/orders/${uid}/${orderId}.json`;
+    console.log('order: ', path);
+    try {
+      return await this._http.delete(path).toPromise();
+    } catch (error) {
+      console.error('Error deleting order:', error);
+      throw error;
+    }
+  }
+  
+
   async updateOrderIsReady(uid: string, orderId: string, orderData: any) {
     const path = ref(this.db, `/orders/${uid}/${orderId}`);
     console.log(path);

@@ -107,10 +107,7 @@ export class DisplayOrdersComponent implements OnInit {
       console.error('Error updating order:', error);
     }
   }
-
-
-
-
+  
 
   getItemTotalAmount(price: number, quantity: number) {
     return Number(price) * Number(quantity);

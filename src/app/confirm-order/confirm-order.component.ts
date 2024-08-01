@@ -46,6 +46,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.exchangeRateService.getDollarPrice().subscribe(price => {
       this.dollarPrice = price;
+      console.log(this.dollarPrice)
       this.initConfig();
     });
 
