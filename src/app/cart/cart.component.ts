@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HandleCartService } from '../services/handle-cart.service';
 import { HandleLocalStorageService } from '../services/handle-local-storage.service';
-import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',

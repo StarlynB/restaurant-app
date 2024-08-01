@@ -4,7 +4,6 @@ import { Cart } from '../models/cart.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemDataService } from '../services/item-data.service';
 import { HandleCartService } from '../services/handle-cart.service';
-import { forkJoin, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-category-page',

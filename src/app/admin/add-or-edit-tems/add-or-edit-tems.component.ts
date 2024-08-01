@@ -6,7 +6,6 @@ import { ActivatedRoute, Data, Router } from '@angular/router';
 import { ItemImageService } from 'src/app/services/item-image.service';
 import { ItemDataService } from 'src/app/services/item-data.service';
 import { percentage } from '@angular/fire/storage';
-
 @Component({
   selector: 'app-add-or-edit-tems',
   templateUrl: './add-or-edit-tems.component.html',
