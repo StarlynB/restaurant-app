@@ -5,7 +5,7 @@ import { User } from '../models/user.model';
 import { UserDataService } from '../services/user-data.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HandleLocalStorageService } from '../services/handle-local-storage.service';
-import { user } from '@angular/fire/auth';
+
 
 @Component({
   selector: 'app-user-profile',

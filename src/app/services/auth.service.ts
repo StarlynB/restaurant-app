@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
+
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { UserDataService } from './user-data.service';
@@ -17,7 +17,6 @@ export class AuthService {
   authStateSubject = new BehaviorSubject<any>(null);
 
   constructor(
-    private afs: Firestore,
     private auth: Auth,
     private router: Router,
     private userDataService: UserDataService,
