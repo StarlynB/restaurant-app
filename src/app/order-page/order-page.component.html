@@ -15,27 +15,33 @@
 
       <div *ngFor="let order of orderArray">
         <div class="card mx-auto" style="max-width: 700px">
-          <div class="card-header">
-            <strong>Order # {{ order.orderNo }}</strong> placed on
-            {{ order.addedOn }}
-
-            <div class="d-grid gap-2">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Order # {{ order.orderNo }}</strong> placed on {{ order.addedOn }}
+            </div>
+          
+            <div class="d-flex align-items-center">
               <button
                 *ngIf="order.remainingSeconds > 0"
                 type="button"
-                class="btn btn-danger me-2 d-block"
+                class="btn btn-danger d-flex align-items-center"
                 data-bs-toggle="tooltip"
                 data-bs-placement="right"
                 title="Do you want to cancel?"
                 (click)="prepareAndRemoveOrderId(order.orderId, order.addedOn)"
               >
-                Cancel
+                <i class="fa-solid fa-times me-2"></i> Cancel
               </button>
-              <span *ngIf="order.remainingSeconds > 0">
-                <i class="fa-solid fa-exclamation text-danger" ></i> Time left for could cancel: <span class="text-danger">{{ formatTime(order.remainingSeconds) }}</span> 
+              <span *ngIf="order.remainingSeconds > 0" class="ms-3">
+                <!-- <i class="fa-solid fa-exclamation text-danger"></i>  -->
+                 <button class="btn btn-outline-info">
+                  <span class="text-danger">{{ formatTime(order.remainingSeconds) }}</span>
+                 </button>
+                <!-- Time left to cancel: -->
               </span>
             </div>
           </div>
+          
           <div class="card-body">
             <h5 class="card-title">ID: {{ order.orderId }}</h5>
             <div *ngFor="let oi of order.orderedItems">
@@ -68,6 +74,8 @@
                   : " Order is not ready, please wait a few moments."
               }}
             </p>
+
+            
           </div>
         </div>
       </div>
