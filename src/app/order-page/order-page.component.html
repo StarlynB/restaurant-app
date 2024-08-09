@@ -20,7 +20,7 @@
               <strong>Order # {{ order.orderNo }}</strong> placed on {{ order.addedOn }}
             </div>
           
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center ">
               <button
                 *ngIf="order.remainingSeconds > 0"
                 type="button"
@@ -28,7 +28,8 @@
                 data-bs-toggle="tooltip"
                 data-bs-placement="right"
                 title="Do you want to cancel?"
-                (click)="prepareAndRemoveOrderId(order.orderId, order.addedOn)"
+                (click)="prepareAndRemoveOrderId(order.orderId, order.addedOn)"   
+                (touchstart)="prepareAndRemoveOrderId(order.orderId, order.addedOn)" 
               >
                 <i class="fa-solid fa-times me-2"></i> Cancel
               </button>

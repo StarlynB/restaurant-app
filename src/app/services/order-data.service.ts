@@ -50,11 +50,11 @@ export class OrderDataService {
       };
     }
 
-
+  
     const orderObj: Order = {
       orderId: '',
       orderedItems: orderDetailsObj,
-      addedOn: new Date().toLocaleString(),
+      addedOn: new Date().toString(),
       isReady: false,
       totalAmt: amount
     };

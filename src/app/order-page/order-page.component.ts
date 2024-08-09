@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrderDataService } from '../services/order-data.service';
 import { Order } from '../models/order.model';
 import { ActivatedRoute } from '@angular/router';
-import { parse, differenceInSeconds } from 'date-fns';
+import { parse, differenceInSeconds, format } from 'date-fns';
 import { UserDataService } from '../services/user-data.service';
 
 @Component({
@@ -112,38 +112,109 @@ export class OrderPageComponent implements OnInit {
     }
   }
 
-  isWithinCancelTime(addedOn: string): boolean {
-    const remainingSeconds = this.calculateRemainingSeconds(addedOn);
-    return remainingSeconds > 0;
+//   convertDateToStandardFormat(addedOn: string): string {
+//     const possibleFormats = ['dd/MM/yyyy, HH:mm:ss', 'MM/dd/yyyy, HH:mm:ss'];
+//     let parsedDate: Date | null = null;
+  
+//     // Intentar parsear la fecha usando los formatos posibles
+//     for (const formatString of possibleFormats) {
+//         parsedDate = parse(addedOn, formatString, new Date());
+//         if (parsedDate instanceof Date && !isNaN(parsedDate.getTime())) {
+//             break;
+//         }
+//     }
+  
+//     // Si se parsea correctamente en uno de los formatos, lo convertimos al formato estándar
+//     if (parsedDate instanceof Date && !isNaN(parsedDate.getTime())) {
+//         return format(parsedDate, 'MM/dd/yyyy, HH:mm:ss');
+//     }
+  
+//     // Si no se pudo parsear, devolver la fecha original para que se maneje como error en otra parte
+//     console.error('Failed to parse date:', addedOn);
+//     return addedOn;
+// }
+  
+// calculateRemainingSeconds(addedOn: string): number {
+//     const currentTime = new Date();
+//     let orderTime = new Date(addedOn);
+
+//     // Verifica si la fecha es válida
+//     if (isNaN(orderTime.getTime())) {
+//         console.error('Failed to parse date:', addedOn);
+//         return 0;
+//     }
+
+//     // Realiza el cálculo
+//     const totalAllowedSeconds = 20 * 60; // 20 minutos en segundos
+//     const timeDifference = Math.max(0, (currentTime.getTime() - orderTime.getTime()) / 1000);
+
+//     return totalAllowedSeconds - timeDifference;
+// }
+  
+// isWithinCancelTime(addedOn: string): boolean {
+//     const remainingSeconds = this.calculateRemainingSeconds(addedOn);
+//     return remainingSeconds > 0;
+// }
+  
+// updateTimers() {
+//     for (let order of this.orderArray) {
+//         const newRemainingSeconds = this.calculateRemainingSeconds(order.addedOn);
+//         if (order.remainingSeconds !== newRemainingSeconds) {
+//             order.remainingSeconds = newRemainingSeconds;
+//         }
+//     }
+// }
+  
+// formatTime(seconds: number): string {
+//     const minutes = Math.floor(seconds / 60);
+//     const remainingSeconds = seconds % 60;
+//     return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+// }
+
+convertDateToStandardFormat(addedOn: string): string {
+  const date = new Date(addedOn);
+  if (isNaN(date.getTime())) {
+      console.error('Failed to parse date:', addedOn);
+      return addedOn;
   }
 
-  calculateRemainingSeconds(addedOn: string): number {
-    const currentTime = new Date();
-    const orderTime = parse(addedOn, 'd/M/yyyy, HH:mm:ss', new Date());
+  // Formatear la fecha solo para minutos y segundos
+  return format(date, 'mm:ss'); // 'mm:ss' para minutos y segundos
+}
 
-    if (isNaN(orderTime.getTime())) {
-      console.error('Invalid orderTime:', addedOn);
+calculateRemainingSeconds(addedOn: string): number {
+  const currentTime = new Date();
+  const orderTime = new Date(addedOn);
+
+  if (isNaN(orderTime.getTime())) {
+      console.error('Failed to parse date:', addedOn);
       return 0;
-    }
-
-    const totalAllowedSeconds = 20 * 60; // 5 minutos en segundos
-    const timeDifference = differenceInSeconds(currentTime, orderTime);
-
-    return totalAllowedSeconds - timeDifference;
   }
 
-  updateTimers() {
-    for (let order of this.orderArray) {
+  // Calcula la diferencia en segundos
+  const totalAllowedSeconds = 20 * 60; // 20 minutos en segundos
+  const timeDifference = Math.max(0, (currentTime.getTime() - orderTime.getTime()) / 1000);
+
+  return totalAllowedSeconds - timeDifference;
+}
+
+isWithinCancelTime(addedOn: string): boolean {
+  const remainingSeconds = this.calculateRemainingSeconds(addedOn);
+  return remainingSeconds > 0;
+}
+
+updateTimers() {
+  for (let order of this.orderArray) {
       const newRemainingSeconds = this.calculateRemainingSeconds(order.addedOn);
       if (order.remainingSeconds !== newRemainingSeconds) {
-        order.remainingSeconds = newRemainingSeconds;
+          order.remainingSeconds = newRemainingSeconds;
       }
-    }
   }
+}
 
-  formatTime(seconds: number): string {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-  }
+formatTime(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60); // Redondea a segundos enteros
+  return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+}
 }
