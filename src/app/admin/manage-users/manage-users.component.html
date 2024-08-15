@@ -1,0 +1,41 @@
+<div class="manage-users">
+    <div class="album py-5">
+      <div class="container">
+        <div *ngIf="isLoading == true">
+          <app-loader></app-loader>
+        </div>
+      
+        <div class="d-flex align-items-center pb-3 mb-5 border-bottom">
+          <span class="fs-2">Manage Users</span>
+        </div>
+        <div class="btn USER-COUNT">
+          <span class="fs-5" translate="no">Users: <strong> {{count}}</strong></span>
+        </div>
+      
+        <!-- Añadir la clase "scroll-container" -->
+        <div class="scroll-container">
+          <div class="row">
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+              <div *ngFor="let user of userDataArray">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <div class="flex-1">
+                        <h5 class="font-size-16 mb-1"><a href="#" class="text-dark" translate="no">{{user.name}}</a></h5>
+                        <span class="badge badge-soft-success mb-0">{{user.rol.val}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer " style="cursor: pointer;" (click)="goToUser(user)">
+                    view details &nbsp; <i class="fa-solid fa-arrow-right" style="color: #63E6BE;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>  
+          </div>
+        </div>       
+      </div>
+      
+    </div>
+  </div>
+  

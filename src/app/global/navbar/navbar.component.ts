@@ -89,4 +89,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   onManageOrders() {
     this.router.navigate(['admin/manage-orders']);
   }
+
+  onManageUsers() {
+    this.router.navigate(['admin/manage-users']);
+  }
 }

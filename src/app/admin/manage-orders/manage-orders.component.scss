@@ -12,3 +12,9 @@ div {
     background-color: rgb(46, 144, 255);
     color: white;
 }
+
+.orders-{
+    max-height: 700px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

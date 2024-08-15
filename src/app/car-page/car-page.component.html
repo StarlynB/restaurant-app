@@ -5,8 +5,12 @@
         <span class="fs-2">Your Cart</span>
       </div>
 
-      <div class="text-center" *ngIf="isCartEmpty == true">
-        <h3>No items in cart.</h3>
+      <div class="d-flex justify-content-center" *ngIf="isCartEmpty == true">
+        <div class="d-block">
+          <dotlottie-player src="https://lottie.host/284fa63e-7f8c-4227-9fd0-2be81b655843/TxsZDYtjin.json" background="white" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+        <h3 class="text-center mt-4">No items in cart.</h3>
+        </div>
+        
       </div>
 
       <div *ngIf="isCartEmpty == false">

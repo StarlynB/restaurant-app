@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ItemDataService } from '../services/item-data.service';
 import { HandleCartService } from '../services/handle-cart.service';
 
+
 @Component({
   selector: 'app-category-page',
   templateUrl: './category-page.component.html',
@@ -41,6 +42,8 @@ export class CategoryPageComponent implements OnInit {
   public mainsOffset: Number = null!;
   public dessertsOffset: Number = null!;
   public alcoholicBeveragesOffset: Number = null!;
+
+  showToast:boolean = false;
 
   constructor(
     private router: Router,
@@ -236,12 +239,24 @@ export class CategoryPageComponent implements OnInit {
   onAdd(item: any) {
     item.quantity += 1;
     this.handleCartService.addOrUpdate(item);
+    this.showToast = true;
+    setTimeout(() => {
+      this.animateToastOut();
+    }, 5000);
   }
 
   //** remove from cart */
   onRemove(item: any) {
     item.quantity -= 1;
     this.handleCartService.removeItem(item);
+  }
+
+  closeToast() {
+    this.animateToastOut();
+  }
+
+  animateToastOut(){
+    this.showToast =  false;
   }
 
 }

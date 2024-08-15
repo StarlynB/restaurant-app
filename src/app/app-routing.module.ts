@@ -16,6 +16,8 @@ import { AuthGuardService } from './route-guard/auth-guard.service';
 import { AdminAuthGuardService } from './route-guard/admin-auth-guard.service';
 import { CartComponent } from './cart/cart.component';
 import { CarPageComponent } from './car-page/car-page.component';
+import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
+import { DisplayUserComponent } from './admin/display-user/display-user.component';
 
 
 const routerOption: ExtraOptions = {
@@ -66,6 +68,16 @@ const routes: Routes = [
   {
     path: 'admin/:uid/orders',
     component: DisplayOrdersComponent,
+    canActivate: [AdminAuthGuardService]
+  },
+  {
+    path: 'admin/manage-users',
+    component: ManageUsersComponent,
+    canActivate: [AdminAuthGuardService]
+  },
+  {
+    path: 'admin/:uid/user',
+    component: DisplayUserComponent,
     canActivate: [AdminAuthGuardService]
   },
   {

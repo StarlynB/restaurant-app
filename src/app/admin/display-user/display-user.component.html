@@ -1,0 +1,55 @@
+<main class="display-user">
+  <div class="album py-5">
+    <div class="container">
+      <div class="d-flex flex-row-reverse" style="margin-bottom: 30px">
+        <div class="p-2">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            [routerLink]="['/admin/manage-users']"
+          >
+            <i class="fa fa-arrow-left"></i>
+            <span style="margin-left: 3px; margin-bottom: 10px"
+              >Back to manage users</span
+            >
+          </button>
+        </div>
+      </div>
+
+      <!-- Mostrar loader si está cargando -->
+      <div *ngIf="isLoading">
+        <app-loader></app-loader>
+      </div>
+
+      <!-- <div class="row"> -->
+        <div *ngFor="let user of usersArray" class="d-flex justify-content-center">
+            <div class="card" style="width: 25rem;">
+                <div class="card-body ">
+                    <div class="text-center">
+                        <div class="flex-1 ms-1 gap-2">
+                            <h3 class="mb-2 pb-2 text-dark-emphasis border-bottom" style="text-transform: uppercase;"  translate="no" >{{user.name}}</h3>
+                            <span class="border-bottom"></span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-1">
+                        <p class="text-muted mb-0"><i class="fa-solid fa-phone" style="color: #63E6BE;"></i>&nbsp; {{ user.phone == ""  ? '---' : user.phone }}</p>
+                        <p class="text-muted mb-0 mt-2"><i class="fa-solid fa-at" style="color: #74C0FC;"></i>&nbsp; {{user.email}}</p>
+                        <p class="text-muted mb-0 mt-2"><i class="fa-solid fa-location-dot fa-lg" style="color: #74C0FC;"></i>&nbsp; {{user.address == "" ? '---' : user.address}}</p>
+                        <h6 class="mt-4" style="text-decoration:dashed;">Would you like Change role? </h6>
+                            <select [(ngModel)]="user.rol.val" class="form-select">
+                                <option *ngFor="let role of roles" translate="no" [value]="role">{{role}}</option>
+                            </select>
+                    </div>
+                    <div class="d-flex gap-2 pt-4">
+                        <button type="button" class="btn btn-outline-primary btn-sm w-50" (click)="updateUserRole(user)"><i class="fa-regular fa-pen-to-square" ></i> Update</button>
+                        <button type="button" class="btn btn-danger btn-sm w-50" (click)="removeUser(user)" ><i class="fa-regular fa-trash-can"></i> Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+  </div>
+</main>
+
+

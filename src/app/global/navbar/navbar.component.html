@@ -121,6 +121,14 @@
                 class="dropdown-item"
                 data-bs-toggle="collapse"
                 data-bs-target=".navbar-collapse.show"
+                (click)="onManageUsers()"
+                *ngIf="isAdmin == true"
+                >Manage Users</a
+              >
+              <a
+                class="dropdown-item"
+                data-bs-toggle="collapse"
+                data-bs-target=".navbar-collapse.show"
                 (click)="onLogOut()"
               >
                 Log out &nbsp;<i class="fa fa-sign-out" aria-hidden="true"></i>

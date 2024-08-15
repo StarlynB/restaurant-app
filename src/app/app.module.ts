@@ -41,10 +41,12 @@ import { NotFoundComponent } from './global/not-found/not-found.component';
 import { StartersIconComponent } from './global/starters-icon/starters-icon.component';
 import { HandleLocalStorageService } from './services/handle-local-storage.service';
 import { AuthGuardService } from './route-guard/auth-guard.service';
+import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 
 //external
 import { NgxPayPalModule } from 'ngx-paypal';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { DisplayUserComponent } from './admin/display-user/display-user.component';
 
 
 
@@ -74,7 +76,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
     NavbarComponent,
     NotFoundComponent,
     StartersIconComponent,
-    DessertIconComponent
+    DessertIconComponent,
+    ManageUsersComponent,
+    DisplayUserComponent
   ],
   imports: [
 

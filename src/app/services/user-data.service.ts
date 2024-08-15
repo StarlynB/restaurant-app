@@ -7,6 +7,7 @@ import { HandleLocalStorageService } from './handle-local-storage.service';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { enviroment } from 'src/environments/environment';
+import { remove } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
@@ -112,6 +113,24 @@ export class UserDataService {
     const userRef = ref(this.db, `users/${userDataParam.uid}`);
     return update(userRef, userDataParam);
   }
+
+  async getUserById(uid:string){
+    const path = `${enviroment.firebase.databaseURL}/users/${uid}.json`;
+    console.log(path);
+    return await this._http.get(path).toPromise();
+  }
+
+  async removeUser(uid: string) {
+    const path = ref(this.db, `users/${uid}`)
+    console.log('attach to: ',path)
+    return remove(path)
+  }
+  
+  updateUserRole(uid: string, newRole: string): Promise<void> {
+    const userRef = ref(this.db, `users/${uid}/rol`);
+    return update(userRef, { val: newRole });
+  }
+  
 
   async checkAddressPresentOrNot() {
     if (this.handleLocalStorageService.getUser() != null) {

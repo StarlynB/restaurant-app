@@ -101,6 +101,21 @@ div.card:hover {
     color: red;
 }
 
+.fade-in {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .fade-out {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  
+  .toast.show {
+    opacity: 1;
+  }
+  
+
 
 /*
 ##Device = Low Resolution Tablets, Mobiles (Landscape)
