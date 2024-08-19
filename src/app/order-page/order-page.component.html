@@ -33,10 +33,10 @@
               >
                 <i class="fa-solid fa-times me-2"></i> Cancel
               </button>
-              <span *ngIf="order.remainingSeconds > 0" class="ms-3">
+              <span *ngIf="order.remainingSeconds > 0" class="ms-3" translate="no">
                 <!-- <i class="fa-solid fa-exclamation text-danger"></i>  -->
-                 <button class="btn btn-outline-info">
-                  <span class="text-danger">{{ formatTime(order.remainingSeconds) }}</span>
+                 <button class="btn btn-outline-info" translate="no">
+                  <span class="text-danger" translate="no">{{ formatTime(order.remainingSeconds) }}</span>
                  </button>
                 <!-- Time left to cancel: -->
               </span>
