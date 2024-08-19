@@ -1,21 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OrderDataService } from '../services/order-data.service';
 import { Order } from '../models/order.model';
 import { ActivatedRoute } from '@angular/router';
 import { parse, differenceInSeconds, format } from 'date-fns';
 import { UserDataService } from '../services/user-data.service';
+import { Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'app-order-page',
   templateUrl: './order-page.component.html',
   styleUrls: ['./order-page.component.scss']
 })
-export class OrderPageComponent implements OnInit {
+export class OrderPageComponent implements OnInit, OnDestroy {
   orders: any;
   orderArray: any = [];
   isLoaded: boolean = false;
   isLoading: boolean = false;
+  isCancel: boolean = false
   uid: string | undefined;
+
+  private Subscription: Subscription = new Subscription()
 
   constructor(
     private orderDataService: OrderDataService,
@@ -31,6 +35,9 @@ export class OrderPageComponent implements OnInit {
   ngOnInit(): void {
     this.fetchOrderData();
     setInterval(() => this.updateTimers(), 1000);
+  }
+  ngOnDestroy(): void {
+    this.Subscription.unsubscribe();
   }
 
   async fetchOrderData() {
@@ -100,10 +107,14 @@ export class OrderPageComponent implements OnInit {
 
     if (this.isWithinCancelTime(addedOn)) {
       try {
+        this.isCancel = true;
         await this.orderDataService.removeOrderById(this.uid!, orderId);
+        this.startLottieTimer()
         setTimeout(() => {
           window.location.reload();
         }, 2000);
+
+        
       } catch (error) {
         console.error('Error removing order:', error);
       }
@@ -112,6 +123,11 @@ export class OrderPageComponent implements OnInit {
     }
   }
 
+  startLottieTimer() {
+    this.Subscription.add(timer(3000).subscribe(() => {
+      this.isCancel = false;
+    }));
+  }
 //   convertDateToStandardFormat(addedOn: string): string {
 //     const possibleFormats = ['dd/MM/yyyy, HH:mm:ss', 'MM/dd/yyyy, HH:mm:ss'];
 //     let parsedDate: Date | null = null;

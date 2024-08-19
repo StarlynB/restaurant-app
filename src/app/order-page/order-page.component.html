@@ -9,18 +9,24 @@
         <app-loader></app-loader>
       </div>
 
-      <div class="text-center" *ngIf="isLoaded == true && orderArray.length == 0">
+      <div
+        class="text-center"
+        *ngIf="isLoaded == true && orderArray.length == 0"
+      >
         <h3>You haven't ordered anything yet</h3>
       </div>
 
       <div *ngFor="let order of orderArray">
         <div class="card mx-auto" style="max-width: 700px">
-          <div class="card-header d-flex justify-content-between align-items-center">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
             <div>
-              <strong>Order # {{ order.orderNo }}</strong> placed on {{ order.addedOn }}
+              <strong>Order # {{ order.orderNo }}</strong> placed on
+              {{ order.addedOn }}
             </div>
-          
-            <div class="d-flex align-items-center ">
+
+            <div class="d-flex align-items-center">
               <button
                 *ngIf="order.remainingSeconds > 0"
                 type="button"
@@ -28,21 +34,41 @@
                 data-bs-toggle="tooltip"
                 data-bs-placement="right"
                 title="Do you want to cancel?"
-                (click)="prepareAndRemoveOrderId(order.orderId, order.addedOn)"   
-                (touchstart)="prepareAndRemoveOrderId(order.orderId, order.addedOn)" 
+                (click)="prepareAndRemoveOrderId(order.orderId, order.addedOn)"
+                (touchstart)="
+                  prepareAndRemoveOrderId(order.orderId, order.addedOn)
+                "
               >
                 <i class="fa-solid fa-times me-2"></i> Cancel
               </button>
-              <span *ngIf="order.remainingSeconds > 0" class="ms-3" translate="no">
+
+              <div class="lottie-container" *ngIf="isCancel">
+                <dotlottie-player
+                  src="https://lottie.host/77169def-d776-4216-90e2-0187df935bcd/WFKgqBL4BG.json"
+                  background="transparent"
+                  speed="1"
+                  style="width: 300px; height: 300px"
+                  loop
+                  autoplay
+                ></dotlottie-player>
+              </div>
+
+              <span
+                *ngIf="order.remainingSeconds > 0"
+                class="ms-3"
+                translate="no"
+              >
                 <!-- <i class="fa-solid fa-exclamation text-danger"></i>  -->
-                 <button class="btn btn-outline-info" translate="no">
-                  <span class="text-danger" translate="no">{{ formatTime(order.remainingSeconds) }}</span>
-                 </button>
+                <button class="btn btn-outline-info" translate="no">
+                  <span class="text-danger" translate="no">{{
+                    formatTime(order.remainingSeconds)
+                  }}</span>
+                </button>
                 <!-- Time left to cancel: -->
               </span>
             </div>
           </div>
-          
+
           <div class="card-body">
             <h5 class="card-title">ID: {{ order.orderId }}</h5>
             <div *ngFor="let oi of order.orderedItems">
@@ -75,8 +101,6 @@
                   : " Order is not ready, please wait a few moments."
               }}
             </p>
-
-            
           </div>
         </div>
       </div>

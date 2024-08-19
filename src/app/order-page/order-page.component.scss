@@ -16,3 +16,15 @@ div {
     background-color: rgb(0 255 167 / 46%);
 }
 
+.lottie-container {
+    position: fixed;  // Esto asegura que la animación esté fija en la pantalla
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;  // Asegúrate de que esté encima de otros elementos
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }
