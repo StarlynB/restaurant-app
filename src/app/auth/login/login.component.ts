@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { getAdditionalUserInfo } from 'firebase/auth';
 import { Subscription } from 'rxjs';
 import { AuthErrorHandlerService } from 'src/app/services/auth-error-handler.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -92,14 +93,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService
       .authenticateWithGoogle()
       .then((result) => {
-        // save user data for a first time user only
-        if (result.additionalUserInfo && result.additionalUserInfo == true) {
+
+        const user = result.user;
+        const additionalUserInfo = getAdditionalUserInfo(result)
+        //save user data only the first time
+        if (additionalUserInfo && user) {
           this.userDataService.createNewUser(
-            result.user.displayName,
-            result.user.email,
-            result.user.uid
-          );
+            user.displayName,
+            user.email,
+            user.uid
+          )
         }
+        setTimeout(() => {
+          this.router.navigate(['']);
+        }, 1500);
 
         this.router.navigate(['']);
       })

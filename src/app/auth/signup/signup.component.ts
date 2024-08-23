@@ -135,7 +135,6 @@ export class SignupComponent implements OnInit, OnDestroy {
             user.uid
           )
         }
-
         setTimeout(() => {
           this.router.navigate(['']);
         }, 1500);
