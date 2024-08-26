@@ -78,6 +78,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
           name: itemObj.name,
           price: itemObj.price,
           quantity: itemObj.quantity,
+          imageUrl: itemObj.imageUrl
         });
       }
     }
