@@ -85,4 +85,9 @@ export class CarPageComponent implements OnInit, OnDestroy {
     this.cartObj = null!;
     this.handleCartService.clearCart();
   }
+
+  goPlaceOrder() {
+    this.router.navigate(['confirm-order']);
+  }
+  
 }
