@@ -79,8 +79,8 @@ export class DisplayUserComponent implements OnInit {
       confirmButtonText: 'Yes, delete user'
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log('User deleted:', user);
-        this.userDataService.removeUser(user.uid);
+        console.log('User deleted:', this.uid!);
+        this.userDataService.removeUser(this.uid!);
         Swal.fire({
           title:'Deleted!',
           text:'The user has been deleted.',
