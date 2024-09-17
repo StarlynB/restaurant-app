@@ -84,7 +84,7 @@ export class AddOrEditTemsComponent implements OnInit {
     //get data from route
     this.route.data.subscribe((data: Data) => {
       this.selectedPath = data['path'];
-      this.submitBtnText = this.selectedPath === 'edit' ? 'updata item' : 'add item';
+      this.submitBtnText = this.selectedPath === 'edit' ? 'update item' : 'add item';
       this.isAdd = this.selectedPath === 'add' ? true : false;
       this.isEdit = this.selectedPath === 'edit' ? true : false;
     });
